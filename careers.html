@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Form</title>
+</head>
+<body>
+    <form name="fileForm" enctype="multipart/form-data" data-netlify="true">
+        <p>
+            <label>
+                <span>Name:</span>
+                <input name="name" type="text" required />
+            </label>
+        </p>
+        <p>
+            <label>
+                <span>Add file:</span>
+                <input name="file" type="file" required />
+            </label>
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+    <p class="result"></p>
+
+    <script>
+        document.forms.fileForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const result = document.querySelector(".result");
+            fetch("/", {
+                body: new FormData(event.target),
+                method: "POST",
+            })
+                .then(() => {
+                    result.innerText = "Success";
+                })
+                .catch((error) => {
+                    result.innerText = `Failed: ${error}`;
+                });
+        });
+    </script>
+</body>
+</html>
+
